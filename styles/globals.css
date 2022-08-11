@@ -14,3 +14,23 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.auth-form__container {
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(54, 102, 180, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  height: 100vh;
+  position: relative;
+}
+
+.auth-form {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  display: grid;
+  gap: 1rem;
+}

@@ -1,13 +1,15 @@
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
+
+import Auth from "components/Auth/Auth";
 
 const AuthPage = () => {
-  return <div>login</div>;
+  return <Auth />;
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const token = await getToken({ req: context.req });
 
-  if (session) {
+  if (token) {
     return {
       redirect: {
         destination: "/",
@@ -17,7 +19,7 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { session },
+    props: { token },
   };
 }
 
