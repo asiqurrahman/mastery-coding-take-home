@@ -1,4 +1,4 @@
-import { getSession } from "next-auth";
+import { getSession } from "next-auth/react";
 
 const AuthPage = () => {
   return <div>login</div>;
