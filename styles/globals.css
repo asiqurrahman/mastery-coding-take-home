@@ -34,3 +34,24 @@ a {
   display: grid;
   gap: 1rem;
 }
+
+.classrooms__container {
+  display: grid;
+  gap: .5rem;
+}
+
+.classroom-link {
+  padding: 1rem;
+  background-color: #dedede;
+  border-radius: 4px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.classroom__container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
