@@ -1,6 +1,7 @@
 import { getToken } from "next-auth/jwt";
 
 import Classrooms from "components/Classrooms/Classrooms";
+import { createClassroom } from "routes/CREATE";
 
 const classrooms = [
   { id: "c1", name: "classroom 1" },
@@ -9,7 +10,16 @@ const classrooms = [
 ];
 
 const Page = () => {
-  return <Classrooms classrooms={classrooms} />;
+  const handleCreateClassroom = async (value) => {
+    await createClassroom(value);
+  };
+
+  return (
+    <Classrooms
+      classrooms={classrooms}
+      handleCreateClassroom={handleCreateClassroom}
+    />
+  );
 };
 
 // export async function getServerSideProps(context) {
