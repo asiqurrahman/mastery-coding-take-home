@@ -1,4 +1,7 @@
+import { signIn } from "next-auth/react";
 import { useState } from "react";
+
+import { registerUser } from "routes/CREATE";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,10 +21,43 @@ const Auth = () => {
     setIsLogin(!isLogin);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(values);
+    if (!isLogin) {
+      if (values.password !== values.confirmPassword) return;
+
+      let registeredUser;
+      try {
+        registeredUser = await registerUser({ ...values, userType: "TEACHER" });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+
+      if (registeredUser) {
+        try {
+          const result = await signIn("credentials", {
+            // callbackUrl: "/",
+            username: values.username,
+            password: values.password,
+          });
+
+          if (!result.error) {
+            router.push("/");
+          } else {
+            throw new Error(result.error);
+          }
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      }
+    }
+
+    signIn("credentials", {
+      username: values.username,
+      password: values.password,
+      // callbackUrl: "/",
+    });
   };
 
   return (

@@ -34,45 +34,50 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        // Send the patch request to authenticate a user and receive the response
-        const response = await fetch(
-          process.env.MC_API_URL + `users/authenticate`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({
-              username: credentials.username,
-              password: credentials.password,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
+        try {
+          // Send the patch request to authenticate a user and receive the response
+          const response = await fetch(
+            `${process.env.API_URL}/users/authenticate`,
+            {
+              method: "GET",
+              body: JSON.stringify({
+                username: credentials.username,
+                password: credentials.password,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          // marshal the response to JSON
+          // and check if the user was successfully authenticated
+          const resJSON = await response.json();
+
+          if (!resJSON.authenticated) {
+            throw new Error("Username or Password is incorrect!");
           }
-        );
+          const userData = jsonwebtoken.verify(
+            resJSON.accessToken,
+            process.env.MC_SECRET_KEY
+          );
 
-        // marshal the response to JSON
-        // and check if the user was successfully authenticated
-        const resJSON = await response.json();
+          delete userData.password;
+          delete userData.iat;
 
-        if (!resJSON.authenticated) {
-          throw new Error("Username or Password is incorrect!");
+          // Return the User object that will store the username and access Token
+          // OPTIONAL: also has the User ID and info attached, can remove if not needed to save memory.
+          return {
+            user: {
+              username: credentials.username,
+              accessToken: resJSON.accessToken,
+              userId: resJSON.userID,
+              info: userData,
+            },
+          };
+        } catch (error) {
+          throw new Error(error.message);
         }
-        const userData = jsonwebtoken.verify(
-          resJSON.accessToken,
-          process.env.MC_SECRET_KEY
-        );
-        delete userData.password;
-        delete userData.iat;
-
-        // Return the User object that will store the username and access Token
-        // OPTIONAL: also has the User ID and info attached, can remove if not needed to save memory.
-        return {
-          user: {
-            username: credentials.username,
-            accessToken: resJSON.accessToken,
-            userId: resJSON.userID,
-            info: userData,
-          },
-        };
       },
     }),
   ],
