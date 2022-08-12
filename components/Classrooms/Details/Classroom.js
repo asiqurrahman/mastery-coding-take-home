@@ -1,26 +1,11 @@
 import { useState, useEffect } from "react";
 import { AddStudentForm } from "./Forms/AddStudentForm";
 
-const Classroom = ({ classroom }) => {
+const Classroom = ({ classroom, students, handleAddStudent }) => {
   const [addStudent, setAddStudent] = useState(false);
-  const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    setStudents(classroom?.students);
-  }, [classroom]);
-
-  const handleAddStudent = (e) => {
-    e.preventDefault();
-    setAddStudent(true);
-  };
-
-  const onSubmit = (values) => {
-    const student = {
-      ...values,
-      id: Math.random(),
-      name: `${values.firstname} ${values.lastname}`,
-    };
-    setStudents((students) => [...students, student]);
+  const onSubmit = async (values) => {
+    await handleAddStudent(values);
     setAddStudent(false);
   };
 
@@ -34,7 +19,7 @@ const Classroom = ({ classroom }) => {
       </ul>
       {!addStudent && (
         <div className="flex-end">
-          <button onClick={handleAddStudent}>+ Add Student</button>
+          <button onClick={(e) => setAddStudent(true)}>+ Add Student</button>
         </div>
       )}
       {addStudent && <AddStudentForm onSubmit={onSubmit} />}

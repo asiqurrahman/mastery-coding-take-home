@@ -1,9 +1,28 @@
+import { useState, useEffect } from "react";
 import { getToken } from "next-auth/jwt";
 
 import Classroom from "components/Classrooms/Details/Classroom";
+import { addStudentToClassroom } from "routes/UPDATE";
 
 const ClassroomPage = ({ classroom }) => {
-  return <Classroom classroom={classroom} />;
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    setStudents(classroom?.students);
+  }, [classroom]);
+
+  const handleAddStudent = async (values) => {
+    const addedStudent = await addStudentToClassroom(classroom?.id, values);
+    setStudents((s) => [...s, addedStudent]);
+  };
+
+  return (
+    <Classroom
+      classroom={classroom}
+      students={students}
+      handleAddStudent={handleAddStudent}
+    />
+  );
 };
 
 export async function getServerSideProps(context) {
