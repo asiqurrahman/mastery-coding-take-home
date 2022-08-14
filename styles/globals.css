@@ -51,7 +51,7 @@ a {
   justify-content: flex-end;
 }
 
-.classroom__container {
+.classroom__container, .layout {
   max-width: 1000px;
   margin: 0 auto;
 }

@@ -14,7 +14,7 @@ const Classrooms = ({ classrooms, handleCreateClassroom }) => {
   return (
     <div className="classrooms__container">
       {classrooms?.map((classroom) => (
-        <Link href={classroom?.id} passHref key={classroom?.id}>
+        <Link href={`/classroom/${classroom?.id}`} passHref key={classroom?.id}>
           <a className="classroom-link">{classroom?.name}</a>
         </Link>
       ))}
