@@ -6,7 +6,7 @@ For this assessment you will be building out a teacher/student app that allows s
 
 Fork this repo and make sure to install all dependencies. To run the frontend server run `npm run dev` or `yarn dev` and you should be good to go.
 
-The frontend is running on nextjs and implements file based routing. If you are unfimiliar with file based routing checkout this guide: https://nextjs.org/docs/routing/introduction
+The frontend is running on nextjs and implements file based routing. If you are unfamiliar with file based routing checkout this guide: https://nextjs.org/docs/routing/introduction
 
 # Requirements/Tasks
 
