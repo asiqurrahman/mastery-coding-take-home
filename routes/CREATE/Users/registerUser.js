@@ -8,6 +8,7 @@ export const registerUser = async (values) => {
       },
     });
     const resJSON = await response.json();
+
     if (!response.ok) {
       throw new Error(
         resJSON.message || "Could not register user. Please try again later."

@@ -6,11 +6,11 @@ For this assessment you will be building out a teacher/student app that allows s
 
 Fork this repo and make sure to install all dependencies. To run the frontend server run `npm run dev` or `yarn dev` and you should be good to go.
 
-The frontend is running on nextjs and implements file based routing. If you are unfamiliar with file based routing checkout this guide: https://nextjs.org/docs/routing/introduction
+The frontend is running on Next.js and implements file based routing. If you are unfamiliar with file based routing checkout the docs here: https://nextjs.org/docs/routing/introduction
 
 # Requirements/Tasks
 
-Your job for this assessment is going to be implementing the quiz feature for students and allowing teachers to read their students submitted quizzes. This should take you about 4 hours to implement the quiz feature, reading results, and add styling, with the styling portion being the least focused.
+Your job for this assessment is to implement a quiz taking feature for students, and allowing teachers to read their students submitted quizzes. This should take you about 4 hours to implement the quiz feature, reading results, and add styling, with the styling portion being the least focused.
 
 Student Flow Checklist:
 
@@ -29,6 +29,10 @@ If you have extra time feel free to add other bonus features you think would enh
 - Teacher can reset a student's submitted quiz (might require backend knowledge)
 - Animations
 - Teacher can take a mock quiz
+
+# Submission
+
+To turn your assessment in email jmartinez@masterycoding.com and include a link to your repo.
 
 # Guide
 

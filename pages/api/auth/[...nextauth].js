@@ -36,19 +36,16 @@ export default NextAuth({
       async authorize(credentials) {
         try {
           // Send the patch request to authenticate a user and receive the response
-          const response = await fetch(
-            `${process.env.API_URL}/users/authenticate`,
-            {
-              method: "GET",
-              body: JSON.stringify({
-                username: credentials.username,
-                password: credentials.password,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await fetch(`${process.env.API_URL}/authenticate`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              username: credentials.username,
+              password: credentials.password,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
           // marshal the response to JSON
           // and check if the user was successfully authenticated

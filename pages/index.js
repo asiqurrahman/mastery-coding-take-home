@@ -1,42 +1,58 @@
-import { getToken } from "next-auth/jwt";
+import { useState, useEffect } from "react";
+import { getSession } from "next-auth/react";
 
 import Classrooms from "components/Classrooms/Classrooms";
+import { fetchUser } from "routes/READ";
 import { createClassroom } from "routes/CREATE";
 
-const classrooms = [
-  { id: "c1", name: "classroom 1" },
-  { id: "c2", name: "classroom 2" },
-  { id: "c3", name: "classroom 3" },
-];
+const Page = ({ fetchedUser }) => {
+  const [classrooms, setClassrooms] = useState([]);
 
-const Page = () => {
+  useEffect(() => {
+    setClassrooms(fetchedUser?.classrooms);
+  }, [fetchedUser]);
+
   const handleCreateClassroom = async (value) => {
-    await createClassroom(value);
+    const createdClassroom = await createClassroom(value);
+
+    console.log(createdClassroom);
   };
 
   return (
-    <Classrooms
-      classrooms={classrooms}
-      handleCreateClassroom={handleCreateClassroom}
-    />
+    <div className="layout">
+      <Classrooms
+        classrooms={classrooms}
+        handleCreateClassroom={handleCreateClassroom}
+      />
+    </div>
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const token = await getToken({ req: context.req });
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
 
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: "/auth",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: { token },
-//   };
-// }
+  try {
+    const fetchedUser = await fetchUser(session.info.id);
+
+    return {
+      props: { session, fetchedUser },
+    };
+  } catch (error) {
+    return {
+      props: {
+        errorMessage: error.message,
+      },
+    };
+  }
+}
 
 export default Page;

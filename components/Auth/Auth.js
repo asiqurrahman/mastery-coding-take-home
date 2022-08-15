@@ -30,26 +30,16 @@ const Auth = () => {
       let registeredUser;
       try {
         registeredUser = await registerUser({ ...values, userType: "TEACHER" });
-      } catch (error) {
-        throw new Error(error.message);
-      }
 
-      if (registeredUser) {
-        try {
-          const result = await signIn("credentials", {
-            // callbackUrl: "/",
+        if (registeredUser) {
+          await signIn("credentials", {
+            callbackUrl: "/",
             username: values.username,
             password: values.password,
           });
-
-          if (!result.error) {
-            router.push("/");
-          } else {
-            throw new Error(result.error);
-          }
-        } catch (error) {
-          throw new Error(error.message);
         }
+      } catch (error) {
+        throw new Error(error.message);
       }
     }
 
@@ -63,7 +53,7 @@ const Auth = () => {
   return (
     <div className="auth-form__container">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h1>{isLogin ? "Sign In" : "Sign up"}</h1>
+        <h1>{isLogin ? "Sign In" : "Teacher Sign up"}</h1>
         <input
           type="text"
           name="username"
@@ -87,12 +77,17 @@ const Auth = () => {
             placeholder="Confirm Password"
           />
         )}
-        <button className="form-button auth-button" onClick={handleAuthChange}>
-          {isLogin ? "Sign Up" : "Login"}
-        </button>
         <button className="form-button" type="submit">
           {isLogin ? "Sign In" : "Register"}
         </button>
+        <div className="flex-end">
+          <button
+            className="form-button auth-button"
+            onClick={handleAuthChange}
+          >
+            {isLogin ? "Teacher Sign Up" : "Login"}
+          </button>
+        </div>
       </form>
     </div>
   );

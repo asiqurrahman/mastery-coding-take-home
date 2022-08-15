@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 
 import Classroom from "components/Classrooms/Details/Classroom";
 import { addStudentToClassroom } from "routes/UPDATE";
@@ -26,16 +26,16 @@ const ClassroomPage = ({ classroom }) => {
 };
 
 export async function getServerSideProps(context) {
-  //   const token = await getToken({ req: context.req });
+  const session = await getSession({ req: context.req });
 
-  //   if (token) {
-  //     return {
-  //       redirect: {
-  //         destination: "/",
-  //         permanent: false,
-  //       },
-  //     };
-  //   }
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   const { query } = context;
   const { classroomId } = query;
