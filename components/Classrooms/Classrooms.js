@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { AddClassroomForm } from "./Forms/AddClassroomForm";
 
 const Classrooms = ({ classrooms, handleCreateClassroom }) => {
+  const { data: session } = useSession();
   const [addClassroomForm, setAddClassroomForm] = useState(false);
 
   const onSubmit = async (value) => {
@@ -14,7 +16,15 @@ const Classrooms = ({ classrooms, handleCreateClassroom }) => {
   return (
     <div className="classrooms__container">
       {classrooms?.map((classroom) => (
-        <Link href={`/classroom/${classroom?.id}`} passHref key={classroom?.id}>
+        <Link
+          href={
+            session?.info?.userType == "TEACHER"
+              ? `/classroom/${classroom?.id}`
+              : `/classroom/${classroom?.id}/quiz`
+          }
+          passHref
+          key={classroom?.id}
+        >
           <a className="classroom-link">{classroom?.name}</a>
         </Link>
       ))}

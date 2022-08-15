@@ -5,7 +5,17 @@ import { quiz } from "quiz";
 
 const QuizPage = () => {
   return (
-    <div className="layout">
+    <div>
+      <div className="flex-end">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            signOut();
+          }}
+        >
+          Logout
+        </button>
+      </div>
       <Quiz quiz={quiz} />
     </div>
   );

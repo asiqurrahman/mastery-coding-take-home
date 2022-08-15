@@ -1,34 +1,57 @@
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 
 import Classroom from "components/Classrooms/Details/Classroom";
 import { addStudentToClassroom } from "routes/UPDATE";
+import { fetchClassroom } from "routes/READ";
 
-const ClassroomPage = ({ classroom }) => {
+const ClassroomPage = ({ classroom, classroomId, session }) => {
+  const [currentClassroom, setCurrentClassroom] = useState({});
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    setStudents(classroom?.students);
+    setCurrentClassroom(classroom);
   }, [classroom]);
 
+  useEffect(() => {
+    setStudents(currentClassroom?.students);
+  }, [currentClassroom]);
+
   const handleAddStudent = async (values) => {
-    const addedStudent = await addStudentToClassroom(classroom?.id, values);
-    setStudents((s) => [...s, addedStudent]);
+    // Only teachers should create classrooms
+    if (session?.info?.userType !== "TEACHER") return;
+
+    await addStudentToClassroom(classroomId, values);
+    const classroom = await fetchClassroom(classroomId);
+    setCurrentClassroom(classroom);
   };
 
   return (
-    <Classroom
-      classroom={classroom}
-      students={students}
-      handleAddStudent={handleAddStudent}
-    />
+    <div className="layout">
+      <div className="flex-end">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            signOut();
+          }}
+        >
+          Logout
+        </button>
+      </div>
+      <Classroom
+        classroom={currentClassroom}
+        students={students}
+        handleAddStudent={handleAddStudent}
+      />
+    </div>
   );
 };
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
 
-  if (session) {
+  if (!session) {
     return {
       redirect: {
         destination: "/",
@@ -40,18 +63,10 @@ export async function getServerSideProps(context) {
   const { query } = context;
   const { classroomId } = query;
 
-  const classroom = {
-    id: classroomId,
-    name: "classroom name",
-    students: [
-      { id: "s1", name: "student 1", username: "student1" },
-      { id: "s2", name: "student 2", username: "student2" },
-      { id: "s3", name: "student 3", username: "student3" },
-    ],
-  };
+  const classroom = await fetchClassroom(classroomId, session);
 
   return {
-    props: { classroom },
+    props: { classroom, classroomId, session },
   };
 }
 

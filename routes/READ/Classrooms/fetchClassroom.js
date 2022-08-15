@@ -1,10 +1,9 @@
-export const createClassroom = async (value, session) => {
+export const fetchClassroom = async (classroomId, session) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/classrooms`,
+      `${process.env.NEXT_PUBLIC_API_URL}/classrooms/${classroomId}`,
       {
-        method: "POST",
-        body: JSON.stringify({ name: value }),
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: session?.accessToken,
@@ -14,7 +13,7 @@ export const createClassroom = async (value, session) => {
     const resJSON = await response.json();
     if (!response.ok) {
       throw new Error(
-        resJSON.message || "Could not create classroom. Please try again later."
+        resJSON.message || "Could not fetch classroom. Please try again later."
       );
     }
     return resJSON;
