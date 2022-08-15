@@ -2,6 +2,8 @@
 
 For this assessment you will be building out a teacher/student app that allows students to take a quiz and view their results. Teachers should also be able to view the students' results in their classroom. You are free to use any libraries/packages you'd like.
 
+If you have any questions or need clarification, please reach out to jmartinez@masterycoding.com
+
 # Instructions
 
 Fork this repo or clone the repo into a new project, and make sure to install all dependencies. To run the frontend server run `npm run dev` or `yarn dev` and you should be good to go.
