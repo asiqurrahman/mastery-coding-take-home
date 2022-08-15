@@ -23,7 +23,7 @@ const ClassroomPage = ({ classroom, classroomId, session }) => {
     if (session?.info?.userType !== "TEACHER") return;
 
     await addStudentToClassroom(classroomId, values);
-    const classroom = await fetchClassroom(classroomId);
+    const classroom = await fetchClassroom(classroomId, session);
     setCurrentClassroom(classroom);
   };
 
