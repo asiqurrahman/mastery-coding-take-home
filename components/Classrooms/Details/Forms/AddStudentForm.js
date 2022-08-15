@@ -40,6 +40,13 @@ export const AddStudentForm = ({ onSubmit }) => {
         onChange={handleChange}
         placeholder="Last Name"
       />
+      <input
+        type="string"
+        name="password"
+        value={values?.password}
+        onChange={handleChange}
+        placeholder="Password"
+      />
       <button className="form-button" type="submit">
         Add Student to Classroom
       </button>

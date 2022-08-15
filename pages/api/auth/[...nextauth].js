@@ -37,9 +37,9 @@ export default NextAuth({
         try {
           // Send the patch request to authenticate a user and receive the response
           const response = await fetch(
-            `${process.env.API_URL}/users/authenticate`,
+            `${process.env.API_URL}/authenticate`,
             {
-              method: "GET",
+              method: "PATCH",
               body: JSON.stringify({
                 username: credentials.username,
                 password: credentials.password,

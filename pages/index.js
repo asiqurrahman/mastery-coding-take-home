@@ -1,15 +1,16 @@
-import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 
 import Classrooms from "components/Classrooms/Classrooms";
 import { createClassroom } from "routes/CREATE";
+import { fetchClassrooms } from "routes/READ";
 
-const classrooms = [
-  { id: "c1", name: "classroom 1" },
-  { id: "c2", name: "classroom 2" },
-  { id: "c3", name: "classroom 3" },
-];
+// const classrooms = [
+//   { id: "c1", name: "classroom 1" },
+//   { id: "c2", name: "classroom 2" },
+//   { id: "c3", name: "classroom 3" },
+// ];
 
-const Page = () => {
+const Page = ({classrooms}) => {
   const handleCreateClassroom = async (value) => {
     await createClassroom(value);
   };
@@ -22,21 +23,23 @@ const Page = () => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const token = await getToken({ req: context.req });
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
 
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: "/auth",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
+    };
+  }
+  
+  const classrooms = await fetchClassrooms(session.info.id);
 
-//   return {
-//     props: { token },
-//   };
-// }
+  return {
+    props: { classrooms },
+  };
+}
 
 export default Page;
