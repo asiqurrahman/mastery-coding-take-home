@@ -31,6 +31,7 @@ Teacher Flow Checklist:
 If you have extra time feel free to add other bonus features you think would enhance the app. Some examples:
 
 - Add site wide navigation
+- Add error handling
 - Teacher can take a mock quiz
 - Any other enhancements you can think of to improve the app.
 - Animations
