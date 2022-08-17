@@ -5,7 +5,7 @@ import { StyledQuiz } from "components/Styles/Quiz.Styles";
 import { useState, useEffect } from "react";
 import { submit } from "routes";
 import { useRouter } from "next/router";
-
+import { fetchUser } from "routes/READ/fetchUser";
 const QuizPage = ({ session, classroomId }) => {
 
   const router = useRouter();
@@ -79,7 +79,7 @@ const QuizPage = ({ session, classroomId }) => {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  console.log(session)
+  
   if (!session) {
     return {
       redirect: {
@@ -87,6 +87,19 @@ export async function getServerSideProps(context) {
         permanent: false,
       },
     };
+  }
+
+  //route protection if student already took quiz
+  if (session && session.info.userType == "STUDENT") {
+    const student = await fetchUser(session.info.id);
+    if (student.results.length > 0) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
   }
 
   const { query } = context;
