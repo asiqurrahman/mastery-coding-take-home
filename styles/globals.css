@@ -12,11 +12,18 @@ a {
 }
 
 * {
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
 .auth-form__container {
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(54, 102, 180, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(54, 102, 180, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
   height: 100vh;
   position: relative;
 }
@@ -35,23 +42,19 @@ a {
   gap: 1rem;
 }
 
-.classrooms__container {
-  display: grid;
-  gap: .5rem;
+.auth-form input {
+  height: 40px;
+  padding: 10px;
+  border: 1px solid grey;
 }
 
-.classroom-link {
-  padding: 1rem;
-  background-color: #dedede;
-  border-radius: 4px;
+.flex-end button {
+  all: unset;
+  background-color: #6675ff;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
-.flex-end {
-  display: flex;
-  justify-content: flex-end;
-}
 
-.classroom__container, .layout {
-  max-width: 1000px;
-  margin: 0 auto;
-}

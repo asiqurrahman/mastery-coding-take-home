@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
-
 import Classroom from "components/Classrooms/Details/Classroom";
 import { addStudentToClassroom } from "routes/UPDATE";
 import { fetchClassroom } from "routes/READ";
+import { fetchUser } from "routes/READ/fetchUser";
+import StudentClassroom from "components/Classrooms/Details/StudentClassroom";
 
-const ClassroomPage = ({ classroom, classroomId, session }) => {
+const ClassroomPage = ({ classroom, classroomId, session, access, student }) => {
   const [currentClassroom, setCurrentClassroom] = useState({});
   const [students, setStudents] = useState([]);
 
@@ -29,21 +29,15 @@ const ClassroomPage = ({ classroom, classroomId, session }) => {
 
   return (
     <div className="layout">
-      <div className="flex-end">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            signOut();
-          }}
-        >
-          Logout
-        </button>
-      </div>
-      <Classroom
-        classroom={currentClassroom}
-        students={students}
-        handleAddStudent={handleAddStudent}
-      />
+      {access == "TEACHER" ? (
+        <Classroom
+          classroom={currentClassroom}
+          students={students}
+          handleAddStudent={handleAddStudent}
+        />
+      ) : (
+        <StudentClassroom classroom={classroomId} student={student}/>
+      )}
     </div>
   );
 };
@@ -60,13 +54,24 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const access = session.info.userType
+
   const { query } = context;
   const { classroomId } = query;
 
-  const classroom = await fetchClassroom(classroomId, session);
+  let classroom = []
+  let student = []
+
+  if(access == "TEACHER"){
+    classroom = await fetchClassroom(classroomId, session);
+  }
+
+  if(access == "STUDENT"){
+    student = await fetchUser(session.info.id)
+  }
 
   return {
-    props: { classroom, classroomId, session },
+    props: { classroom, classroomId, session, access, student},
   };
 }
 

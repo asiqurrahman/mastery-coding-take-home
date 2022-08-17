@@ -22,19 +22,10 @@ const Page = ({ fetchedClassrooms, session }) => {
 
   return (
     <div>
-      <div className="flex-end">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            signOut();
-          }}
-        >
-          Logout
-        </button>
-      </div>
       <Classrooms
         classrooms={classrooms}
         handleCreateClassroom={handleCreateClassroom}
+        session={session}
       />
     </div>
   );
