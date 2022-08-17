@@ -10,7 +10,6 @@ const Student = ({ student }) => {
     }
   }, [student]);
 
-    console.log(student)
   const show = () => {
     if (student.results[0]) {
       setShowScore(!showScore);
@@ -19,7 +18,6 @@ const Student = ({ student }) => {
   return (
     <div
       onClick={() => show()}
-      key={student?.id}
       className={
         student?.results[0] ? "student completed" : " student not-completed"
       }

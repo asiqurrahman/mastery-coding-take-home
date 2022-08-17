@@ -22,8 +22,8 @@ const Classroom = ({ classroom, students, handleAddStudent }) => {
           <h2>Students</h2>
         </div>
         <ul>
-          {students?.map((student) => (
-            <Student student={student}/>
+          {students?.map((student, index) => (
+            <Student student={student} key={index}/>
           ))}
         </ul>
         {session?.info?.userType !== "STUDENT" && (
