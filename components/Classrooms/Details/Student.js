@@ -23,15 +23,22 @@ const Student = ({ student }) => {
       }
     >
       <div className="basic-info">
-        <h2>
-          {student?.firstname} {student?.lastname}
-        </h2>
+        <div>
+          <h2>
+            {student?.firstname} {student?.lastname}
+          </h2>
+          <br />
+          {student.results[0] && <h4>Quiz: {student.results[0].title}</h4>}
+        </div>
         <h2>{student?.results[0] ? "submitted" : "Not Submitted"}</h2>
       </div>
       {showScore && (
         <div className="completed-quiz">
           <h2>Student Received {grad.percentage}%</h2>
-          <h2>They answered {grad.amountCorrect} / {grad.amountOfQuestions} questions correct</h2>
+          <h2>
+            They answered {grad.amountCorrect} / {grad.amountOfQuestions}{" "}
+            questions correct
+          </h2>
           <hr />
           <Quiz questions={student.results[0].questions} completed={true} />
         </div>
